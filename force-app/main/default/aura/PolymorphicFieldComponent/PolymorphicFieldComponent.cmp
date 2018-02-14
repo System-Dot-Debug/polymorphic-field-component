@@ -1,0 +1,48 @@
+<aura:component controller="PolySearch" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasSOBjectName,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <!--Since the controller and helper scripts utilize the jquery javascript library we need to call our jquery static resource.-->
+    <!--Once the jquery resource is loaded we will call our doInit function from our controller.js script-->
+    <ltng:require scripts="/resource/SDD/jquery2.js" afterScriptsLoaded="{!c.doInit}"/>
+    
+    <!--Page Attibutes-->
+    <aura:attribute name="lookupFieldAPIName" type="String" default=""/>
+    <aura:attribute name="lookupFieldLabel" type="String" default=""/>
+    <aura:attribute name="outputField" type="String" default="--------"/>
+    <aura:attribute name="searchTerm" type="String" />
+    <aura:attribute name="displayMode" type="Boolean" default="True"/>   
+    <aura:attribute name="polyId" type="String" default="" /> 
+    
+    <!--Main Body Elements-->
+    <lightning:card >
+        <div style="width:592px;">
+            <aura:renderIf isTrue="{!v.displayMode}">
+                <!--If the user is not activily editing the poly field then display the output data-->
+                <div class="slds-form-element slds-m-left_x-small" style="height:100%;" id="outputField">
+                    <label class="slds-form-element__label" for="outputField">{!v.lookupFieldLabel}</label>
+                    <div class="outputField slds-grid slds-grid_vertical-align-center slds-grid_align-spread" ondblclick="{! c.editMode }" style="height: 32px;">                   
+                        <p style="display:inline-block;">{!v.outputField}</p>
+                        <div id="editField" class="editField">
+                            <lightning:buttonIcon class="slds-icon slds-icon-text-default" iconName="utility:edit" variant="bare" onclick="{!c.editMode}" alternativeText="Edit" />
+                        </div>
+                    </div>                
+                </div>
+                <!--If the user is activily editing the poly field then display the input search box-->
+                <aura:set attribute="else">
+                    <div id="inputField" onblur="{!c.displayMode}">                   
+                        <div class="slds-form-element" id="search-container">
+                            <label class="slds-form-element__label" for="searchTerm">Search</label>
+                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left-right">
+                                <lightning:buttonIcon class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default search-button" iconName="utility:search" variant="bare" onclick="{! c.runSearch }" alternativeText="Search" />                            
+                                <input type="text" id="searchTerm" class="slds-input" value="{!v.searchTerm}" placeholder="Search Organization..."/>                                                    
+                                <lightning:buttonIcon class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default clear-search" iconName="utility:clear" variant="bare" onclick="{!c.displayMode}" alternativeText="Cancel" /> 
+                                <ui:spinner aura:id="spinner" isVisible="false" class="slds-icon slds-input__icon slds-input__icon_right slds-spinner_brand slds-icon-text-default search-spinner"/>   
+                            </div>
+                        </div>
+                        <ul class="slds-select" id="sObjectRecords" style="display:none;"></ul>
+                                                
+                    </div>
+                </aura:set>
+                
+            </aura:renderIf>
+        </div>
+    </lightning:card>
+</aura:component>

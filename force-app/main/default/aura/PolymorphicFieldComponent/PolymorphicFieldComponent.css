@@ -1,0 +1,16 @@
+.THIS .editField {
+    display:none;
+}
+
+.THIS #outputField:hover .editField{
+    display:block;
+}
+
+.THIS #sObjectRecords {
+    height: 100px;
+    overflow-y: scroll;
+}
+
+.THIS #sObjectRecords:hover li {
+    cursor: pointer;
+}

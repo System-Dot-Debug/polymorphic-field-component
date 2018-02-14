@@ -1,0 +1,3 @@
+<design:component >
+	<design:attribute name="lookupFieldAPIName" label="Lookup Field API Name" description="API name of the lookup field to the PolymorphicJoin__c object" />
+</design:component>
